@@ -1,40 +1,216 @@
-  const star=document.createElement('div');
-  star.className='star';
-  star.style.left=Math.random()*window.innerWidth+'px';
-  star.style.top=Math.random()*window.innerHeight+'px';
-  star.style.width=star.style.height=(Math.random()*2+1)+'px';
-  star.style.animationDuration=(Math.random()*5+5)+'s';
-  document.body.appendChild(star);
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mật Khẩu 4 Số Siêu VIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin:0; font-family:'Roboto',sans-serif;
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh; overflow:hidden;
+  background: linear-gradient(-45deg, #ff6f61, #6a11cb, #2575fc, #43cea2);
+  background-size:400% 400%; animation:gradientBG 15s ease infinite;
+  color:white; position:relative;
+}
+@keyframes gradientBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+body::before{ content:''; position:absolute; top:0; left:0; width:100%; height:100%; backdrop-filter: blur(10px); background-color: rgba(0,0,0,0.4); z-index:0; }
+
+.particle{ position:absolute; width:3px; height:3px; background:white; border-radius:50%; opacity:0.5; animation: sparkle 3s infinite; }
+@keyframes sparkle{0%{transform:translateY(0) scale(0.5); opacity:0.2;}50%{opacity:1; transform:translateY(-25px) scale(1);}100%{transform:translateY(0) scale(0.5); opacity:0.2;}}
+
+.container{ position:relative; z-index:1; background: rgba(0,0,0,0.7); border-radius: 25px; padding: 30px 40px; max-width:500px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.9); border:2px solid; border-image-slice:1; border-width:2px; border-image-source: linear-gradient(45deg,#ff6f61,#43cea2); transition:0.3s all; }
+.container:hover{ box-shadow:0 25px 70px rgba(0,0,0,1); }
+.toggle-mode{ position:absolute; top:20px; right:30px; cursor:pointer; background:#ffd700; color:#000; border:none; padding:8px 12px; border-radius:10px; font-weight:700; transition:0.3s; }
+.toggle-mode:hover{ transform: scale(1.1); }
+h1{ font-size:28px; margin-bottom:20px; text-align:center; color:#ffd700;}
+input, button{ padding:12px 15px; margin:10px 0; border-radius:12px; border:none; font-size:16px;}
+input{width:calc(100% - 30px);}
+.generate-btn{background:#ff6f61;color:white;font-weight:500;}
+.generate-btn:hover{background:#ff3b2f;transform:translateY(-2px);}
+.share-btn{background:#43cea2;color:white;margin-top:15px;}
+.share-btn:hover{background:#2a9d8f; transform:translateY(-2px);}
+#result{ margin-top:20px; max-height:300px; overflow-y:auto; position:relative; }
+ul{ padding:0; list-style:none; display:flex; flex-direction:column; align-items:center; }
+li{ display:flex; justify-content:space-between; align-items:center; padding:12px 18px; margin:6px 0; border-radius:18px; font-weight:600; font-size:16px; background: rgba(255,255,255,0.1); cursor:pointer; width:90%; opacity:0; transform:scale(0); transition:0.5s all, background 0.5s; perspective:800px; }
+li.show{ opacity:1; transform:scale(1); }
+li:hover{ background: linear-gradient(90deg,#ff6f61,#43cea2,#ffd700); color:white; transform: scale(1.08) rotateX(5deg) rotateY(5deg); box-shadow:0 6px 25px rgba(0,0,0,0.5); }
+.copy-btn{ background:#ffd700;border:none;padding:5px 10px;border-radius:6px; cursor:pointer;font-weight:500;transition:0.3s; }
+.copy-btn:hover{background:#ffea00; transform:scale(1.1);}
+.copy-btn.copied{animation: copiedAnim 0.5s;}
+@keyframes copiedAnim{0%{transform:scale(1);}50%{transform:scale(1.4);}100%{transform:scale(1);}}
+.gradient-bg{ background: linear-gradient(90deg,#ff6f61,#43cea2,#ffd700); background-size:200% 200%; animation:gradientMove 3s ease infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+@keyframes gradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+.cursor-light{ position:absolute; width:120px; height:120px; border-radius:50%; pointer-events:none; mix-blend-mode:screen; background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%); transform:translate(-50%, -50%); transition: transform 0.05s; }
+
+/* Footer nhà phát triển cực VIP */
+.dev-footer{
+  text-align:center; margin-top:20px; font-size:16px; font-weight:500; overflow:hidden; position:relative;
+  cursor:pointer;
+}
+.dev-name{
+  font-weight:700;
+  background: linear-gradient(90deg, #ff6f61, #43cea2, #ffd700, #ff6f61);
+  background-size:400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientDev 4s ease infinite, blinkDev 2s infinite;
+  display:inline-block;
+  transition: transform 0.3s, text-shadow 0.3s;
+}
+.dev-name:hover{
+  transform: scale(1.3) rotateZ(2deg);
+  text-shadow:0 0 10px #ffd700,0 0 20px #43cea2,0 0 30px #ff6f61;
+}
+@keyframes gradientDev{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes blinkDev{0%,100%{opacity:1;}50%{opacity:0.8;}}
+
+.dev-icon{
+  margin-left:5px;
+  display:inline-block;
+  animation: iconGlow 2s infinite;
+}
+@keyframes iconGlow{0%,100%{text-shadow:none; transform:scale(1);}50%{text-shadow:0 0 15px #ffd700,0 0 25px #43cea2; transform:scale(1.2);}}
+
+.container > .dev-footer{
+  opacity:0;
+  transform: translateY(50px);
+  animation: slideUpDev 1s forwards;
+  animation-delay:0.5s;
+}
+@keyframes slideUpDev{to{opacity:1; transform: translateY(0);}}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="toggle-mode" onclick="toggleMode()">🌙</button>
+  <h1>Tạo 20 Mật Khẩu 4 Số</h1>
+  <input type="text" id="dob" placeholder="01/01/2002"><br>
+  <button class="generate-btn" onclick="taoMatKhau()">Tạo Mật Khẩu</button>
+  <div id="result"><ul></ul></div>
+  <button class="share-btn" onclick="sharePasswords()">Chia sẻ tất cả mật khẩu</button>
+
+  <!-- Footer nhà phát triển -->
+  <div class="dev-footer">
+    Nhà phát triển: <span class="dev-name">Rcom Khánh</span> <span class="dev-icon">⭐</span> - Chuyên tạo web
+    <canvas id="devParticles" style="position:absolute; top:0; left:50%; transform:translateX(-50%); pointer-events:none; width:100%; height:50px;"></canvas>
+  </div>
+</div>
+
+<div class="cursor-light" id="cursorLight"></div>
+
+<script>
+let currentPasswords=[];
+let darkMode=true;
+
+// Particle nền
+for(let i=0;i<100;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.top=Math.random()*100+"%";
+  p.style.width=(2+Math.random()*3)+"px";
+  p.style.height=(2+Math.random()*3)+"px";
+  p.style.animationDuration=(2+Math.random()*3)+"s";
+  p.style.opacity=Math.random()*0.7+0.3;
+  document.body.appendChild(p);
 }
 
-// Shooting stars
-function shootingStar(){
-  const star=document.createElement('div');
-  star.className='shooting-star';
-  star.style.left=Math.random()*window.innerWidth+'px';
-  star.style.top=Math.random()*window.innerHeight*0.5+'px';
-  const duration= Math.random()*1+0.5;
-  document.body.appendChild(star);
-  star.animate([
-    {transform:'translate(0,0)'},
-    {transform:`translate(${Math.random()*400-200}px,${window.innerHeight}px)`}
-  ],{
-    duration:duration*2000,
-    easing:'linear'
-  });
-  setTimeout(()=>star.remove(),duration*2000);
-}
-setInterval(shootingStar,1000+Math.random()*1000);
+// Cursor light
+document.addEventListener('mousemove', e=>{
+  const light=document.getElementById('cursorLight');
+  light.style.left=e.clientX+'px';
+  light.style.top=e.clientY+'px';
+});
 
-// Scroll fade-in
-const faders=document.querySelectorAll('.fade-in');
-window.addEventListener('scroll',()=>{
-  faders.forEach(el=>{
-    const rect=el.getBoundingClientRect();
-    if(rect.top<window.innerHeight-50){
-      el.classList.add('visible');
+function taoMatKhau(){
+  const dob=document.getElementById('dob').value.replace(/\D/g,'');
+  if(!dob||dob.length<4){ alert("Vui lòng nhập ngày sinh đủ 4 số!"); return;}
+  currentPasswords=[];
+  const ul=document.querySelector("#result ul");
+  ul.innerHTML="";
+  for(let i=0;i<20;i++){
+    let base=dob.slice(-4);
+    let matKhau=base.split('').sort(()=>Math.random()-0.5).join('');
+    currentPasswords.push(matKhau);
+    let li=document.createElement("li");
+    li.innerHTML=`<span class="gradient-bg">${matKhau}</span> <button class="copy-btn">Copy</button>`;
+    ul.appendChild(li);
+    setTimeout(()=>{ li.classList.add("show"); }, i*80);
+    let btn=li.querySelector(".copy-btn");
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      navigator.clipboard.writeText(matKhau).then(()=>{
+        btn.classList.add("copied");
+        // Nổ ánh sáng
+        const burst=document.createElement("div");
+        burst.style.position="absolute";
+        burst.style.left=e.clientX+'px';
+        burst.style.top=e.clientY+'px';
+        burst.style.width="50px";
+        burst.style.height="50px";
+        burst.style.borderRadius="50%";
+        burst.style.background="radial-gradient(circle, #ffd700, transparent)";
+        burst.style.pointerEvents="none";
+        burst.style.opacity=0.8;
+        document.body.appendChild(burst);
+        burst.animate([{transform:'scale(0)',opacity:0.8},{transform:'scale(3)',opacity:0}],{duration:500,easing:'ease-out'});
+        setTimeout(()=>document.body.removeChild(burst),500);
+        setTimeout(()=>btn.classList.remove("copied"),500);
+      });
     }
+  }
+}
+
+function sharePasswords(){
+  if(currentPasswords.length===0){ alert("Vui lòng tạo mật khẩu trước!"); return;}
+  navigator.clipboard.writeText(currentPasswords.join("\n")).then(()=>{ alert("Đã copy tất cả mật khẩu!");});
+}
+
+function toggleMode(){
+  if(darkMode){
+    document.body.style.background="linear-gradient(120deg,#fff,#ccc,#eee,#ddd)";
+    document.body.style.color="#000";
+    darkMode=false;
+  } else{
+    document.body.style.background="linear-gradient(-45deg, #ff6f61, #6a11cb, #2575fc, #43cea2)";
+    document.body.style.color="#fff";
+    darkMode=true;
+  }
+}
+
+// Dev footer particles
+const canvas = document.getElementById("devParticles");
+const ctx = canvas.getContext("2d");
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+const particles=[];
+for(let i=0;i<50;i++){
+  particles.push({x:canvas.width/2,y:canvas.height/2,radius:Math.random()*2+1,dx:(Math.random()-0.5)*2,dy:(Math.random()-0.5)*2,alpha:Math.random()});
+}
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy; p.alpha-=0.005;
+    if(p.alpha<=0){p.x=canvas.width/2; p.y=canvas.height/2; p.alpha=1; p.dx=(Math.random()-0.5)*2; p.dy=(Math.random()-0.5)*2;}
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
+    ctx.fill();
   });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Particle theo hover cursor footer
+const devName = document.querySelector(".dev-name");
+devName.addEventListener("mousemove", e=>{
+  for(let i=0;i<5;i++){
+    particles.push({x:e.offsetX+canvas.width/4, y:e.offsetY, radius:Math.random()*2+1, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2, alpha:1});
+  }
 });
 </script>
 </body>
